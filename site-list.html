@@ -1,8 +1,5 @@
   <link rel="import" href="../polymer/polymer.html">
-  <link rel="import" href="../url-value/url-value.html">
-  <link rel="import" href="../get-hash/get-hash.html">
   <link rel="import" href="../paper-filter/paper-filter.html">
-  <link rel="import" href="../get-geo-data/get-geo-data.html">
   <link rel="import" href="../iron-image/iron-image.html">
 
 <dom-module id="site-list">
@@ -29,21 +26,9 @@
   </style>
 
   <template>
-    <url-value values="{{url}}" ></url-value>
-    
-    <h1>{{url.search}}</h1>
-    
-    <get-hash location="{{url.search}}" hash="{{hash}}"></get-hash>
-    
-    <get-geo-data
-       location="https://essential-map.firebaseio.com/geo"
-       geo="{{hash}}" 
-       data="{{data}}" >
-    </get-geo-data>
-    <paper-filter by="type" data="{{data}}" output="{{data_by_type}}" max="1" ></paper-filter>
-    
-    <paper-filter by="facilities" data="{{data_by_type}}" output="{{data_by_t_and_f}}"></paper-filter>
-
+    <firebase-collection location="https://hi9.firebaseio.com/cards/data/card" data="{{cards}}">
+    </firebase-collection>
+    <paper-filter by="type" data="{{cards}}" output="{{output}}" max="1" ></paper-filter>
     <template is="dom-repeat" items="{{output}}" as="card">
       <a href="{{card.url}}" title="{{card.value}}" >
         <paper-material>
@@ -52,7 +37,6 @@
             <span>{{card.title}}</span>
             <span>more infomation</span>
           </div>
-          <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
           <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
         </paper-material>
       </a>
