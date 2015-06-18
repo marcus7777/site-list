@@ -45,15 +45,6 @@
 <script type="text/javascript">
    Polymer({
      is: 'site-list',
-     properties: {
-       output: {
-         type: Array,
-         computed: 'byCenter(data_by_t_and_f,hash)'
-       } 
-     },
-     byCenter: function(data,center) {
-       return byCenter(data, center, 20);
-     }
    });
 </script>
 </dom-module>
