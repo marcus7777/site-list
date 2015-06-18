@@ -1,0 +1,75 @@
+  <link rel="import" href="../polymer/polymer.html">
+  <link rel="import" href="../url-value/url-value.html">
+  <link rel="import" href="../get-hash/get-hash.html">
+  <link rel="import" href="../paper-filter/paper-filter.html">
+  <link rel="import" href="../get-geo-data/get-geo-data.html">
+  <link rel="import" href="../iron-image/iron-image.html">
+
+<dom-module id="site-list">
+  <style>
+    :host {
+      display: block;
+      text-align: center;
+    }
+    paper-button {
+      background: #fff;
+      min-width: 172px;
+      margin: 0px 2px 6px;
+    }
+    paper-material {
+      margin: 16px, 16px;
+      height: 100px;
+      min-width:360px;
+      margin:10px;
+      display: inline-block;
+    }
+    a:link {
+      color:black;
+    }
+  </style>
+
+  <template>
+    <url-value values="{{url}}" ></url-value>
+    
+    <h1>{{url.search}}</h1>
+    
+    <get-hash location="{{url.search}}" hash="{{hash}}"></get-hash>
+    
+    <get-geo-data
+       location="https://essential-map.firebaseio.com/geo"
+       geo="{{hash}}" 
+       data="{{data}}" >
+    </get-geo-data>
+    <paper-filter by="type" data="{{data}}" output="{{data_by_type}}" max="1" ></paper-filter>
+    
+    <paper-filter by="facilities" data="{{data_by_type}}" output="{{data_by_t_and_f}}"></paper-filter>
+
+    <template is="dom-repeat" items="{{output}}" as="card">
+      <a href="{{card.url}}" title="{{card.value}}" >
+        <paper-material>
+          <div class="body1" style="float: left;width:250px">
+            <h3>{{card.value}}</h3>
+            <span>{{card.title}}</span>
+            <span>more infomation</span>
+          </div>
+          <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
+          <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
+        </paper-material>
+      </a>
+    </template>
+  </template>
+<script type="text/javascript">
+   Polymer({
+     is: 'site-list',
+     properties: {
+       output: {
+         type: Array,
+         computed: 'byCenter(data_by_t_and_f,hash)'
+       } 
+     },
+     byCenter: function(data,center) {
+       return byCenter(data, center, 20);
+     }
+   });
+</script>
+</dom-module>
