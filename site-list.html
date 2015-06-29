@@ -40,7 +40,7 @@
        geo="{{hash}}" 
        data="{{data}}" >
     </get-geo-data>
-    <paper-filter by="[type,facilities]" data="{{data}}" output="{{output}}"></paper-filter>
+    <paper-filter by="['type','facilities']" data="{{data}}" output="{{output}}"></paper-filter>
 
     <template is="dom-repeat" items="{{output}}" as="card">
       <a href="{{card.url}}" title="{{card.value}}" >
