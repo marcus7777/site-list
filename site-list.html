@@ -40,7 +40,8 @@
        geo="{{hash}}" 
        data="{{data}}" >
     </get-geo-data>
-    <paper-filter by="['type','facilities']" data="{{data}}" output="{{output}}"></paper-filter>
+    <paper-filter by="type" data="{{data}}" output="{{output}}" max=1></paper-filter>
+    <paper-filter by="facilities" data="{{data}}" output="{{output}}"></paper-filter>
 
     <template is="dom-repeat" items="{{output}}" as="card">
       <a href="{{card.url}}" title="{{card.value}}" >
@@ -67,7 +68,12 @@
      },
      byCenter: function(data,center) {
        return byCenter(data, center, 20);
-     }
+     },
+    ready: function() {
+      setInterval(function() {       
+        document.querySelectorAll('html site-list')[0].$.cards.render();
+      },1000)
+    }
    });
 </script>
 </dom-module>
