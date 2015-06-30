@@ -41,7 +41,7 @@
        data="{{data}}" >
     </get-geo-data>
     <paper-filter by="type" data="{{data}}" output="{{data_typed}}" max=1></paper-filter>
-    <paper-filter by="facilities" data="{{data_typed}}" output="{{output}}"></paper-filter>
+    <paper-filter by="facilities" data="{{data_typed}}" output="{{data_by_t_and_f}}"></paper-filter>
 
     <template is="dom-repeat" items="{{output}}" as="card" id="cards">
       <a href="{{card.url}}" title="{{card.value}}" >
