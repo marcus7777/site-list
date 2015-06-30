@@ -40,10 +40,10 @@
        geo="{{hash}}" 
        data="{{data}}" >
     </get-geo-data>
-    <paper-filter by="type" data="{{data}}" output="{{output}}" max=1></paper-filter>
-    <paper-filter by="facilities" data="{{data}}" output="{{output}}"></paper-filter>
+    <paper-filter by="type" data="{{data}}" output="{{data_typed}}" max=1></paper-filter>
+    <paper-filter by="facilities" data="{{data_typed}}" output="{{output}}"></paper-filter>
 
-    <template is="dom-repeat" items="{{output}}" as="card">
+    <template is="dom-repeat" items="{{output}}" as="card" id="cards">
       <a href="{{card.url}}" title="{{card.value}}" >
         <paper-material>
           <div class="body1" style="float: left;width:250px">
