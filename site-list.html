@@ -27,24 +27,34 @@
     a:link {
       color:black;
     }
+    google-map {
+       height: 100px;
+    }
   </style>
-
-  <template>
+  
+  <template is="dom-bind">
     <url-value values="{{url}}" ></url-value>
+    <input value="{{location::input}}" />
     
     <h1>{{url.search}}</h1>
     
-    <get-hash location="{{url.search}}" hash="{{hash}}"></get-hash>
-    
+    <get-hash location="{{location}}" map="{{map}}" hash="{{hash}}"></get-hash>
+    <google-map map="{{map}}" id="map"></google-map>
     <get-geo-data
        location="https://essential-map.firebaseio.com/geo"
        geo="{{hash}}" 
        data="{{data}}" >
     </get-geo-data>
-    <paper-filter by="type" data="{{data}}" output="{{data_typed}}" max=1></paper-filter>
-    <paper-filter by="facilities" data="{{data_typed}}" output="{{data_by_t_and_f}}"></paper-filter>
+    
+    <h1>{{hash}}</h1>
+    
+    <paper-filter by="type" data="{{data}}" output="{{data_by_type}}">
+    </paper-filter>
+    
+    <paper-filter by="facilities" data="{{data_by_type}}" output="{{data_by_t_and_f}}">
+    </paper-filter>
 
-    <template is="dom-repeat" items="{{output}}" as="card" id="cards">
+    <template is="dom-repeat" items="{{data_by_t_and_f}}" as="card">
       <a href="{{card.url}}" title="{{card.value}}" >
         <paper-material>
           <div class="body1" style="float: left;width:250px">
@@ -52,29 +62,11 @@
             <span>{{card.title}}</span>
             <span>more infomation</span>
           </div>
+          
           <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
           <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
         </paper-material>
       </a>
     </template>
   </template>
-<script type="text/javascript">
-   Polymer({
-     is: 'site-list',
-     properties: {
-       output: {
-         type: Array,
-         computed: 'byCenter(data_by_t_and_f,hash)'
-       } 
-     },
-     byCenter: function(data,center) {
-       return byCenter(data, center, 20);
-     },
-    ready: function() {
-      setInterval(function() {       
-        document.querySelectorAll('html site-list')[0].$.cards.render();
-      },1000)
-    }
-   });
-</script>
 </dom-module>
