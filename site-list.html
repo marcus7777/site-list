@@ -1,10 +1,10 @@
-  <link rel="import" href="../polymer/polymer.html">
-  <link rel="import" href="../url-value/url-value.html">
-  <link rel="import" href="../get-hash/get-hash.html">
-  <link rel="import" href="../paper-filter/paper-filter.html">
-  <link rel="import" href="../get-geo-data/get-geo-data.html">
-  <link rel="import" href="../iron-image/iron-image.html">
-  <link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../url-value/url-value.html">
+<link rel="import" href="../get-hash/get-hash.html">
+<link rel="import" href="../paper-filter/paper-filter.html">
+<link rel="import" href="../get-geo-data/get-geo-data.html">
+<link rel="import" href="../iron-image/iron-image.html">
+<link rel="import" href="../paper-material/paper-material.html">
   
 <dom-module id="site-list">
   <style>
@@ -28,33 +28,41 @@
       color:black;
     }
     google-map {
-       height: 100px;
+      height: 100px;
     }
   </style>
   
-  <template is="dom-bind">
+  <template>
     <url-value values="{{url}}" ></url-value>
-    <input value="{{location::input}}" />
-    
+
     <h1>{{url.search}}</h1>
     
-    <get-hash location="{{location}}" map="{{map}}" hash="{{hash}}"></get-hash>
-    <google-map map="{{map}}" id="map"></google-map>
+    <get-hash location="{{url.search}}" map="{{map}}" hash="{{hash}}"></get-hash>
+    <google-map map="{{map}}" id="map">
+      <template is="dom-repeat" items="{{data_by_t_and_f}}" as="marker">
+      <google-map-marker icon="{{marker.type}}.svg" longitude="{{LatLngTolongitude(marker.LatLng)}}" latitude="{{LatLngTolatitude(marker.LatLng)}}" title="{{marker.value}}" >
+          <a href="{{marker.url}}">
+            <h4>{{marker.value}}</h4>
+            <img src="{{ addCDN('https://sdyrcs.cloudimage.io/s/crop/120x120/', marker.image) }}">
+          </a>
+        </google-map-marker>
+      </template>
+    </google-map>
+
     <get-geo-data
        location="https://essential-map.firebaseio.com/geo"
        geo="{{hash}}" 
        data="{{data}}" >
     </get-geo-data>
-    
-    <h1>{{hash}}</h1>
-    
     <paper-filter by="type" data="{{data}}" output="{{data_by_type}}">
+      
     </paper-filter>
     
     <paper-filter by="facilities" data="{{data_by_type}}" output="{{data_by_t_and_f}}">
+      
     </paper-filter>
 
-    <template is="dom-repeat" items="{{data_by_t_and_f}}" as="card">
+    <template is="dom-repeat" items="{{output}}" as="card">
       <a href="{{card.url}}" title="{{card.value}}" >
         <paper-material>
           <div class="body1" style="float: left;width:250px">
@@ -69,4 +77,31 @@
       </a>
     </template>
   </template>
+  <script type="text/javascript">
+    Polymer({
+      is: 'site-list',
+      properties: {
+        output: {
+          type: Array,
+          computed: 'byCenter(data_by_t_and_f,hash)'
+        } 
+      },
+      byCenter: function(data,center) {
+        return byCenter(data, center, 20);
+        },
+        LatLngTolongitude: function(value) {
+          if (value !== undefined) {
+            return +value.split(',')[1];
+          }
+        },
+        LatLngTolatitude: function(value) { console.log('LatLngTolatitude');
+          if (value !== undefined) {
+            return +value.split(',')[0];
+          }
+        },
+        addCDN: function(cdn,url) {
+          return cdn + url;
+        }
+    });
+  </script>
 </dom-module>
