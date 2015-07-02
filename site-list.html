@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../url-value/url-value.html">
 <link rel="import" href="../get-hash/get-hash.html">
 <link rel="import" href="../paper-filter/paper-filter.html">
 <link rel="import" href="../get-geo-data/get-geo-data.html">
@@ -33,11 +32,10 @@
   </style>
   
   <template>
-    <url-value values="{{url}}" ></url-value>
 
-    <h1>{{url.search}}</h1>
+    <h1>{{search}}</h1>
     
-    <get-hash location="{{url.search}}" map="{{map}}" hash="{{hash}}"></get-hash>
+    <get-hash location="{{search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     <google-map map="{{map}}" id="map">
       <template is="dom-repeat" items="{{data_by_t_and_f}}" as="marker">
       <google-map-marker icon="{{marker.type}}.svg" longitude="{{LatLngTolongitude(marker.LatLng)}}" latitude="{{LatLngTolatitude(marker.LatLng)}}" title="{{marker.value}}" >
@@ -84,7 +82,19 @@
         output: {
           type: Array,
           computed: 'byCenter(data_by_t_and_f,hash)'
-        } 
+        },
+        _search: {
+          type: String,
+          computed: "searchReady(search)"
+        },
+        search: {
+          type: String
+        }
+      },
+      searchReady: function (search) {
+        this.debounce('search', function(search) {
+          return search;
+        } , 500);
       },
       byCenter: function(data,center) {
         return byCenter(data, center, 20);
