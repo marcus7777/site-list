@@ -112,6 +112,13 @@
       },
       addCDN: function(cdn, url) {
         return cdn + url;
+      },
+      ready: function() {
+        setInterval(function() {       
+          var app = document.querySelectorAll('html site-list')[0];
+          app.output = byCenter(app.data_by_t_and_f, app.hash, 20);
+          app.$.cards.render();
+        },1000)
       }
     });
   </script>
