@@ -32,9 +32,11 @@
   
   <template>
     
-    <h1>{{hash}}</h1>
+    <h1>{{search}}</h1>
 
-    <h1>{{_search}}</h1>
+    <h2>{{_search}}</h2>
+    
+    <h3>{{hash}}</h3>
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
@@ -74,7 +76,8 @@
       </a>
     </template>
   </template>
-  <script type="text/javascript">
+</dom-module>
+<script type="text/javascript">
     Polymer({
       is: 'site-list',
       properties: {
@@ -124,5 +127,4 @@
         },1000)
       }
     });
-  </script>
-</dom-module>
+</script>
