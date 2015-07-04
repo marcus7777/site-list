@@ -96,12 +96,7 @@
         this.debounce("setInput", this.setInput, 800)
       },
       setInput: function(){
-        this._search = this.input;
-      },
-      searchReady: function (search) {
-        this.debounce('search', function(search) {
-          return search;
-        } , 500);
+        this._search = this.search;
       },
       byCenter: function(data, center) {
         return byCenter(data, center, 20);
