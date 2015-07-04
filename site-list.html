@@ -36,9 +36,9 @@
     
     <h1>{{hash}}</h1>
 
-    <h1>{{search}}</h1>
+    <h1>{{_search}}</h1>
     
-    <get-hash location="{{search}}" map="{{map}}" hash="{{hash}}"></get-hash>
+    <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
     <google-map map="{{map}}" id="map">
       <template is="dom-repeat" items="{{data_by_t_and_f}}" as="marker">
@@ -56,12 +56,9 @@
        geo="{{hash}}" 
        data="{{data}}" >
     </get-geo-data>
-    <paper-filter by="type" data="{{data}}" output="{{data_by_type}}">
-      
-    </paper-filter>
     
-    <paper-filter by="facilities" data="{{data_by_type}}" output="{{data_by_t_and_f}}">
-      
+    <paper-filter by="type" data="{{data}}" output="{{data_by_type}}" max="1"></paper-filter>
+    <paper-filter by="facilities" data="{{data_by_type}}" output="{{data_by_t_and_f}}"></paper-filter>
     </paper-filter>
 
     <template is="dom-repeat" items="{{output}}" as="card" id="cards">
@@ -87,13 +84,18 @@
           type: Array,
           computed: 'byCenter(data_by_t_and_f,hash)'
         },
-        _search: {
-          type: String,
-          computed: "searchReady(search)"
-        },
         search: {
           type: String
-        }
+        },
+        debounceing: {
+          computed: 'debounceInput(search)'
+        },
+      },
+      debounceInput: function(data) {
+        this.debounce("setInput", this.search, 800)
+      },
+      setInput: function(){
+        this._search = this.input;
       },
       searchReady: function (search) {
         this.debounce('search', function(search) {
