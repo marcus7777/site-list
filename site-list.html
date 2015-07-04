@@ -59,8 +59,7 @@
     
     <paper-filter by="type" data="{{data}}" output="{{data_by_type}}" max="1"></paper-filter>
     <paper-filter by="facilities" data="{{data_by_type}}" output="{{data_by_t_and_f}}"></paper-filter>
-    </paper-filter>
-
+    
     <template is="dom-repeat" items="{{output}}" as="card" id="cards">
       <a href="{{card.url}}" title="{{card.value}}" >
         <paper-material>
@@ -86,11 +85,16 @@
           computed: 'byCenter(data_by_t_and_f,hash)'
         },
         search: {
-          type: String
+          type: String,
+          value:"nOrTh PoLe"
         },
         debounceing: {
           computed: 'debounceInput(search)'
         },
+        hash: {
+          type:String,
+          value:"gzzzzzzzzzzz"
+        }
       },
       debounceInput: function(data) {
         this.debounce("setInput", this.setInput, 800)
@@ -99,7 +103,9 @@
         this._search = this.search;
       },
       byCenter: function(data, center) {
-        return byCenter(data, center, 20);
+        if (this.search != "nOrTh PoLe") {
+          return byCenter(data, center, 20);
+        }
       },
       LatLngTolongitude: function(value) {
         if (value !== undefined) {
@@ -115,11 +121,11 @@
         return cdn + url;
       },
       ready: function() {
-        setInterval(function() {       
-          var app = document.querySelectorAll('html site-list')[0];
-          app.output = byCenter(app.data_by_t_and_f, app.hash, 20);
-          app.$.cards.render();
-        },1000)
+//        setInterval(function() {       
+//          var app = document.querySelectorAll('html site-list')[0];
+  //        app.output = byCenter(app.data_by_t_and_f, app.hash, 20);
+  //        app.$.cards.render();
+  //      },1000)
       }
     });
 </script>
