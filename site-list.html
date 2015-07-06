@@ -57,7 +57,7 @@
        data="{{data}}" >
     </get-geo-data>
     
-    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_type}}"></paper-filter>
+    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}"></paper-filter>
     
     <template is="dom-repeat" items="{{output}}" as="card" id="cards">
       <a href="{{card.url}}" title="{{card.value}}" >
@@ -81,7 +81,7 @@
       properties: {
         output: {
           type: Array,
- //         computed: 'byCenter(data_by_t_and_f,hash,30)'
+          computed: 'byCenter(data_by_tf,hash,30)'
         },
         search: {
           type: String,
@@ -122,7 +122,7 @@
       ready: function() {
         setInterval(function() {       
           var app = document.querySelectorAll('html site-list')[0];
-          app.output = byCenter(app.data_by_t_and_f, app.hash, 20);
+          app.output = byCenter(app.data_by_tf, app.hash, 20);
           app.$.cards.render();
         },1000)
       }
