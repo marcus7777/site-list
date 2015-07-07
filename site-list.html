@@ -42,7 +42,7 @@
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
     <google-map map="{{map}}" id="map">
-      <template is="dom-repeat" items="{{data_by_t_and_f}}" as="marker">
+      <template is="dom-repeat" items="{{output}}" as="marker">
       <google-map-marker icon="{{marker.type}}.svg" longitude="{{LatLngTolongitude(marker.LatLng)}}" latitude="{{LatLngTolatitude(marker.LatLng)}}" title="{{marker.value}}" >
           <a href="{{marker.url}}">
             <h4>{{marker.value}}</h4>
