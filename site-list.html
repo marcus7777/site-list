@@ -58,7 +58,7 @@
        data="{{data}}" >
     </get-geo-data>
     
-    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" filters="{{filters}}"></paper-filter>
+    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filters="{{top_filters}}"></paper-filter>
     
     <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="300">
       <a href="{{card.url}}" title="{{card.value}}" >
@@ -95,7 +95,7 @@
           type:String,
           value:"gzzzzzzzzzzz"
         },
-        filters: {
+        top_filters: {
           type:Array,
           notify: true
         }
