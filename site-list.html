@@ -123,6 +123,7 @@
         setInterval(function() {       
           var app = document.querySelectorAll('html site-list')[0];
 //          app.output = byCenter(app.data_by_tf, app.hash, 20);
+          this.map.event.trigger(this.map, 'resize');
           app.$.cards.render();
         },1000)
       }
