@@ -37,11 +37,7 @@
   
   <template>
     
-    <h1>{{search}}</h1>
-
     <h2>{{_search}}</h2>
-    
-    <h3>{{hash}}</h3>
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
@@ -64,7 +60,7 @@
     
     <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}"></paper-filter>
     
-    <template is="dom-repeat" items="{{output}}" as="card" id="cards">
+    <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="300">
       <a href="{{card.url}}" title="{{card.value}}" >
         <paper-material>
           <div class="body1" style="float: left;width:250px">
