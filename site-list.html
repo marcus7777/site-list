@@ -58,7 +58,7 @@
        data="{{data}}" >
     </get-geo-data>
     
-    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}"></paper-filter>
+    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" filters="{{filters}}"></paper-filter>
     
     <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="300">
       <a href="{{card.url}}" title="{{card.value}}" >
@@ -94,6 +94,10 @@
         hash: {
           type:String,
           value:"gzzzzzzzzzzz"
+        },
+        filters: {
+          type:Array,
+          notify: true
         }
       },
       debounceInput: function(data) {
