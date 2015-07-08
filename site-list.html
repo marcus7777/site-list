@@ -130,9 +130,10 @@
         setInterval(function() {       
           var app = document.querySelectorAll('html site-list')[0];
 //          app.output = byCenter(app.data_by_tf, app.hash, 20);
-//          app.map.event.trigger(app.map, 'resize');
+          document.querySelector('google-map').resize();
+          this.showingMap = true
           app.$.cards.render();
-        },1000)
+        },3000)
       }
     });
 </script>
