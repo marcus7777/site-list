@@ -102,6 +102,11 @@
         top_filter: {
           type:Array,
           notify: true
+        },
+        output: {
+          type:Array,
+          notify: true,
+          value: [{type:"hotels"},{type:"destinations"},{type:"attractions"}]
         }
       },
       hiddenResults: function() {
