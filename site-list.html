@@ -107,10 +107,10 @@
         }
       },
       hiddenResults: function() {
-        if (Array.isArray(this.output) && this.output.length > 0 && !this.output[0].hasOwnProperty("image")) {
-          return false;
-        } else {
+        if (Array.isArray(this.output) && this.output.length > 0 && this.output[0].hasOwnProperty("image")) {
           return true;
+        } else {
+          return false;
         }
       },
       debounceInput: function(data){
