@@ -105,7 +105,7 @@
         }
       },
       hiddenResults: function() {
-        if (!this.output[0].hasOwnProperty("image")) {
+        if (this.output.length > 0 && !this.output[0].hasOwnProperty("image")) {
           return false;
         } else {
           return true;
