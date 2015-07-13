@@ -108,9 +108,9 @@
       },
       hiddenResults: function() {
         if (Array.isArray(this.output) && this.output.length > 0 && this.output[0].hasOwnProperty("image")) {
-          return true;
-        } else {
           return false;
+        } else {
+          return true;
         }
       },
       debounceInput: function(data){
