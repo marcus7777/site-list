@@ -39,8 +39,8 @@
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
-    <google-map hidden="{{hiddenResults()}}" map="{{map}}" id="map">
-     <!-- <template is="dom-if" if="{{showingMap}}"> -->
+    <google-map hidden="{{hiddenResults(output)}}" map="{{map}}" id="map">
+      <template is="dom-if" if="{{hiddenResults(output)}}">
         <template is="dom-repeat" items="{{data_by_tf}}" as="marker">
           <google-map-marker icon="{{marker.type}}.svg" longitude="{{LatLngTolongitude(marker.LatLng)}}" latitude="{{LatLngTolatitude(marker.LatLng)}}" title="{{marker.value}}" >
             <a href="{{marker.url}}">
@@ -49,7 +49,7 @@
             </a>
           </google-map-marker>
         </template>
-      <!-- </template> --> 
+      </template>
     </google-map>
     <content></content>
     <get-geo-data
@@ -58,21 +58,23 @@
        data="{{data}}" >
     </get-geo-data>
     
-    <paper-filter hidden="{{hiddenResults()}}" by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{top_filter}}"></paper-filter>
+    <paper-filter hidden="{{hiddenResults(output)}}" by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{top_filter}}"></paper-filter>
     
-    <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400">
-      <a href="{{card.url}}" title="{{card.value}}" >
-        <paper-material>
-          <div class="body1" style="float: left;width:250px">
-            <h3>{{card.value}}</h3>
-            <span>{{card.title}}</span>
-            <span>more infomation</span>
-          </div>
-          
-          <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
-          <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
-        </paper-material>
-      </a>
+    <template is="dom-if" if="{{hiddenResults(output)}}">
+      <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400">
+        <a href="{{card.url}}" title="{{card.value}}" >
+          <paper-material>
+            <div class="body1" style="float: left;width:250px">
+              <h3>{{card.value}}</h3>
+              <span>{{card.title}}</span>
+              <span>more infomation</span>
+            </div>
+           
+            <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
+            <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
+          </paper-material>
+        </a>
+      </template>
     </template>
   </template>
 </dom-module>
