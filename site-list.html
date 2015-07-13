@@ -105,7 +105,7 @@
         }
       },
       hiddenResults: function() {
-        if (this.hash != "gzzzzzzzzzzz") {
+        if (!this.output[0].hasOwnProperty("image")) {
           return false;
         } else {
           return true;
