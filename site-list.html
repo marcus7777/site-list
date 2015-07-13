@@ -102,11 +102,6 @@
         top_filter: {
           type:Array,
           notify: true
-        },
-        output: {
-          type:Array,
-          notify: true,
-          value: [{type:"hotels"},{type:"destinations"},{type:"attractions"}]
         }
       },
       hiddenResults: function() {
@@ -127,6 +122,8 @@
       byCenter: function(data, center) {
         if (this.search != "nOrTh PoLe") {
           return byCenter(data, center, 20);
+        } else {
+          return [{type:"hotels"},{type:"destinations"},{type:"attractions"}];
         }
       },
       LatLngTolongitude: function(value) {
