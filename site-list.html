@@ -105,7 +105,7 @@
         }
       },
       hiddenResults: function() {
-        if (this.output.length > 0 && !this.output[0].hasOwnProperty("image")) {
+        if (Array.isArray(this.output) && this.output.length > 0 && !this.output[0].hasOwnProperty("image")) {
           return false;
         } else {
           return true;
@@ -123,7 +123,7 @@
         if (this.search != "nOrTh PoLe") {
           return byCenter(data, center, 20);
         } else {
-          return [{type:"hotels"},{type:"destinations"},{type:"attractions"}];
+          return [];
         }
       },
       LatLngTolongitude: function(value) {
