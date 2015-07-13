@@ -88,6 +88,10 @@
           type: String,
           value:"nOrTh PoLe"
         },
+        _search: {
+          type: String,
+          value:""
+        }, 
         debounceing: {
           computed: 'debounceInput(search)'
         },
@@ -101,7 +105,11 @@
         }
       },
       hiddenResults: function() {
-        return true;
+        if (this._search != "") {
+          return false;
+        } else {
+          return true;
+        }
       },
       debounceInput: function(data){
         this.debounce("setInput", this.setInput, 800)
