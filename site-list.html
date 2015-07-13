@@ -39,7 +39,7 @@
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
-    <google-map hidden="{{showResults()}}" map="{{map}}" id="map">
+    <google-map hidden="{{hiddenResults()}}" map="{{map}}" id="map">
      <!-- <template is="dom-if" if="{{showingMap}}"> -->
         <template is="dom-repeat" items="{{data_by_tf}}" as="marker">
           <google-map-marker icon="{{marker.type}}.svg" longitude="{{LatLngTolongitude(marker.LatLng)}}" latitude="{{LatLngTolatitude(marker.LatLng)}}" title="{{marker.value}}" >
@@ -58,7 +58,7 @@
        data="{{data}}" >
     </get-geo-data>
     
-    <paper-filter hidden="{{showResults()}}" by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{top_filter}}"></paper-filter>
+    <paper-filter hidden="{{hiddenResults()}}" by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{top_filter}}"></paper-filter>
     
     <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400">
       <a href="{{card.url}}" title="{{card.value}}" >
@@ -100,8 +100,8 @@
           notify: true
         }
       },
-      showResults: function() {
-        return false
+      hiddenResults: function() {
+        return true;
       },
       debounceInput: function(data){
         this.debounce("setInput", this.setInput, 800)
