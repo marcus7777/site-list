@@ -143,10 +143,13 @@
       },
       ready: function() {
         setInterval(function() {       
-          var app = document.querySelectorAll('html site-list')[0];
+          var app = document.querySelectorAll('html site-list #cards');
+          if (app.length > 0) {
+             app[0].render();
+          }
 //          app.output = byCenter(app.data_by_tf, app.hash, 20);
           document.querySelector('google-map').resize();
-          app.$.cards.render();
+
         },3000)
       }
     });
