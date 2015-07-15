@@ -58,7 +58,7 @@
        data="{{data}}" >
     </get-geo-data>
     
-    <paper-filter hidden="{{hiddenResults(output)}}" by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{top_filter}}"></paper-filter>
+    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{top_filter}}"></paper-filter>
     
     <template is="dom-if" if="{{!hiddenResults(output)}}">
       <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400">
