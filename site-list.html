@@ -41,7 +41,7 @@
     
     <google-map hidden="{{hiddenResults(output)}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
-        <template is="dom-repeat" items="{{output)}}" as="marker">
+        <template is="dom-repeat" items="{{byCenter(data_by_tf,hash,100))}}" as="marker">
           <google-map-marker icon="{{marker.type}}.svg" longitude="{{LatLngTolongitude(marker.LatLng)}}" latitude="{{LatLngTolatitude(marker.LatLng)}}" title="{{marker.value}}" >
             <a href="{{marker.url}}">
               <h4>{{marker.value}}</h4>
