@@ -10,9 +10,9 @@
     :host {
       display: block;
       text-align: center;
-	  background-color: #faebd7;
-	  font-family: Roboto, Helvetica, sans-serif;
-	  font-weight: 300;
+      background-color: #faebd7;
+      font-family: Roboto, Helvetica, sans-serif;
+      font-weight: 300;
     }
     paper-button {
       background: #fff;
@@ -37,7 +37,7 @@
     google-map {
       height: 300px;
     }
-	paper-filter {
+    paper-filter {
 		margin-top: 5px;
 	}
 	iron-input {
@@ -49,7 +49,7 @@
   <template>
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
-    
+    <lunr-js search="{{search}}" data="" output=""></lunr-js>
     <google-map hidden="{{hiddenResults(output)}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
         <template is="dom-repeat" items="{{byCenter(data_by_tf,hash,100)}}" as="marker">
@@ -64,7 +64,8 @@
     </google-map>
     <content></content>
     <get-geo-data
-       geo="{{hash}}" 
+       geo="{{hash}}"
+       allData="{{allData}}"
        data="{{data}}" >
     </get-geo-data>
     
