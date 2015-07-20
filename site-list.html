@@ -50,8 +50,8 @@
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
-    <lunr-js search="{{search}}" data="{{allData}}" output="{{dataFormSearch}}"></lunr-js>
-    <span>{{dataFormSearch}}</span>
+    <lunr-js search="{{search}}" data="{{all_data}}" output="{{data_form_search}}"></lunr-js>
+    <span>{{data_form_search}}</span>
     
     <google-map hidden="{{hiddenResults(output)}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
@@ -69,7 +69,7 @@
     <get-geo-data
        geo="{{hash}}"
        input="https://essentialhotels.co.uk/index.json"
-       allData="{{allData}}"
+       all_data="{{all_data}}"
        data="{{data}}" >
     </get-geo-data>
     
