@@ -49,7 +49,10 @@
   <template>
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
-    <lunr-js search="{{search}}" data="{{allData}}" output="{{data}}"></lunr-js>
+    
+    <lunr-js search="{{search}}" data="{{allData}}" output="{{dataFormSearch}}"></lunr-js>
+    <span>{{dataFormSearch}}</span>
+    
     <google-map hidden="{{hiddenResults(output)}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
         <template is="dom-repeat" items="{{byCenter(data_by_tf,hash,100)}}" as="marker">
