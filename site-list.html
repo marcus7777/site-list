@@ -132,7 +132,9 @@
         }
       },
       hiddenMap: function(output, hash) {
-      	if(hash == "gzzzzzzzzzzz") {
+      	if (hash === "gzzzzzzzzzzz") {
+      	  return false
+      	} else {
           if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
             return false;
           } else {
