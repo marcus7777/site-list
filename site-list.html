@@ -51,7 +51,6 @@
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
     <lunr-js search="{{search}}" data="{{all_data}}" output="{{data_form_search}}"></lunr-js>
-    <span>{{data_form_search}}</span>
     
     <google-map hidden="{{hiddenResults(output)}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
@@ -99,7 +98,7 @@
       properties: {
         output: {
           type: Array,
-          computed: 'byCenter(data_by_tf,hash,30)'
+          computed: 'byCenter(data_by_tf,hash,30,data_form_search)'
         },
         search: {
           type: String,
@@ -140,11 +139,11 @@
           this._search = this.search;
         }
       },
-      byCenter: function(data, center,num) {
+      byCenter: function(data, center,num,data_form_search) {
         if (this.search != "nOrTh PoLe") {
           return byCenter(data, center, num);
         } else {
-          return [];
+          return data_form_search;
         }
       },
       LatLngTolongitude: function(value) {
