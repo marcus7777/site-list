@@ -49,7 +49,7 @@
   <template>
     
     
-    <google-map hidden="{{hiddenMap(output,hash)}}" map="{{map}}" id="map">
+    <google-map hidden="{{hiddenMap()}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
         <template is="dom-repeat" items="[[byCenter(data_by_tf,hash,100)]]" as="marker">
           <google-map-marker icon="[[marker.type]].svg" longitude="[[LatLngTolongitude(marker.LatLng)]]" latitude="[[LatLngTolatitude(marker.LatLng)]]" title="[[marker.value]]" >
@@ -136,11 +136,11 @@
           return true;
         }
       },
-      hiddenMap: function(output, hash) {
-      	if (hash === "gzzzzzzzzzzz") {
+      hiddenMap: function() {
+      	if (this.hash === "gzzzzzzzzzzz" || this._search === "") {
       	  return true
       	} else {
-          if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
+          if (Array.isArray(this.output) && this.output.length > 0 && this.output[0].hasOwnProperty("image")) {
             return false;
           } else {
             return true;
