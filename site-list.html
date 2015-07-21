@@ -89,7 +89,7 @@
       </template>
     </template>
     <template is="dom-if" if="{{is_ready}}" >
-      <lunr-js fields="[['value','type','facilities']]" search="[[_search]]" data="[[all_data]]" output="{{data_form_search}}"></lunr-js>
+      <lunr-js fields="[[search_fields]]" search="[[_search]]" data="[[all_data]]" output="{{data_form_search}}"></lunr-js>
     </template>
   </template>
 </dom-module>
@@ -123,6 +123,9 @@
         filter: {
           type: String,
           notify: true
+        },
+        search_fields:{
+          type:Array,value: ["value","type"]
         }
       },
       hiddenResults: function(output) {
