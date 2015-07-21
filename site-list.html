@@ -50,7 +50,7 @@
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
-    <lunr-js search="[[search]]" data="[[all_data]]" output="{{data_form_search}}"></lunr-js>
+    <lunr-js search="[[_search]]" data="[[all_data]]" output="{{data_form_search}}"></lunr-js>
     
     <google-map hidden="{{hiddenMap(output,hash)}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
