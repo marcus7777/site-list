@@ -50,9 +50,9 @@
     
     <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
-    <lunr-js search="{{search}}" data="{{all_data}}" output="{{data_form_search}}"></lunr-js>
+    <lunr-js search="[[search]]" data="[[all_data]]" output="{{data_form_search}}"></lunr-js>
     
-    <google-map hidden="{{hiddenResults(output)}}" map="{{map}}" id="map">
+    <google-map hidden="{{hiddenMap(output,hash)}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
         <template is="dom-repeat" items="{{byCenter(data_by_tf,hash,100)}}" as="marker">
           <google-map-marker icon="{{marker.type}}.svg" longitude="{{LatLngTolongitude(marker.LatLng)}}" latitude="{{LatLngTolatitude(marker.LatLng)}}" title="{{marker.value}}" >
@@ -124,12 +124,21 @@
           notify: true
         }
       },
-      hiddenResults: function() {
-        if (Array.isArray(this.output) && this.output.length > 0 && this.output[0].hasOwnProperty("image")) {
+      hiddenResults: function(output) {
+        if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
           return false;
         } else {
           return true;
         }
+      },
+      hiddenMap: function(output, hash) {
+      	if(hash == "gzzzzzzzzzzz") {
+          if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
+            return false;
+          } else {
+            return true;
+          }
+      	}
       },
       debounceInput: function(data){
         this.debounce("setInput", this.setInput, 1200)
