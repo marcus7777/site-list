@@ -48,23 +48,23 @@
   
   <template>
     
-    <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
     
     <google-map hidden="{{hiddenMap(output,hash)}}" map="{{map}}" id="map">
       <template is="dom-if" if="{{hiddenResults(output)}}">
-        <template is="dom-repeat" items="{{byCenter(data_by_tf,hash,100)}}" as="marker">
-          <google-map-marker icon="{{marker.type}}.svg" longitude="{{LatLngTolongitude(marker.LatLng)}}" latitude="{{LatLngTolatitude(marker.LatLng)}}" title="{{marker.value}}" >
-            <a href="{{marker.url}}">
-              <h4>{{marker.value}}</h4>
-              <img src="{{ addCDN('https://sdyrcs.cloudimage.io/s/crop/120x120/', marker.image) }}">
+        <template is="dom-repeat" items="[[byCenter(data_by_tf,hash,100)]]" as="marker">
+          <google-map-marker icon="[[marker.type]].svg" longitude="[[LatLngTolongitude(marker.LatLng)]]" latitude="[[LatLngTolatitude(marker.LatLng)]]" title="[[marker.value]]" >
+            <a href="[[marker.url]]">
+              <h4>[[marker.value]]</h4>
+              <img src="[[addCDN('https://sdyrcs.cloudimage.io/s/crop/120x120/', marker.image) ]]">
             </a>
           </google-map-marker>
         </template>
       </template>
     </google-map>
     <content></content>
+    <get-hash location="[[_search]]" map="{{map}}" hash="{{hash}}"></get-hash>
     <get-geo-data
-       geo="{{hash}}"
+       geo="[[hash]]"
        input="https://essentialhotels.co.uk/index.json"
        all_data="{{all_data}}"
        data="{{data}}" >
