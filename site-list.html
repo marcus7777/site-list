@@ -72,7 +72,7 @@
     </get-geo-data>
     </template>
     
-    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{top_filter}}"></paper-filter>
+    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{true_top_filter}}"></paper-filter>
     
     <template is="dom-if" if="{{!hiddenResults(output)}}">
       <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400">
@@ -119,7 +119,7 @@
           value:"gzzzzzzzzzzz"
         },
         top_filter: {
-          type: Array,
+          computed: 'get_top_filter(true_top_filter)';
           notify: true
         },
         filter: {
@@ -180,6 +180,13 @@
       },
       addCDN: function(cdn, url) {
         return cdn + url;
+      },
+      get_top_filter: function (true_top_filter){
+      	if (Array.isArray(true_top_filter) && true_top_filter.length > 1 ) {
+          return true_top_filter;
+      	} else {
+      	  return [{name:"Hotels"},{name:"Things to Do"},{name:"Destinations"},{name:"Food & Drink"}];
+      	}
       },
       ready: function() {
         setInterval(function() {       
