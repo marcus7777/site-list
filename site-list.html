@@ -46,7 +46,7 @@
   </style>
   
   <template>
-    <template is="dom-if" if="{{_search}}">
+    <!-- <template is="dom-if" if="{{_search}}"> -->
       <google-map hidden$="{{!showMap(output)}}" map="{{map}}" id="map">
         <template is="dom-if" if="{{!hiddenResults(output)}}">
           <template is="dom-repeat" items="{{byCenter(data_by_tf,hash,100)}}" as="marker">
@@ -60,7 +60,7 @@
         </template>
       </google-map>
       <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
-    </template>  
+    <!-- </template> --> 
     
     <content></content>
     
