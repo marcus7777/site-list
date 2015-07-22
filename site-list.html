@@ -90,9 +90,6 @@
         </a>
       </template>
     </template>
-    <!--<template>  is="dom-if" if="{{is_ready}}" 
-      <lunr-js fields="[[search_fields]]" search="{{search}}" data="[[all_data]]" output="{{data_form_search}}"></lunr-js>
-    </template> -->
   </template>
 </dom-module>
 <script type="text/javascript">
@@ -101,7 +98,7 @@
       properties: {
         output: {
           type: Array,
-          computed: 'byCenter(data_by_tf,hash,30,data_form_search)'
+          computed: 'byCenter(data_by_tf,hash,30)'
         },
         search: {
           type: String,
@@ -164,11 +161,9 @@
           this._search = this.search;
         }
       },
-      byCenter: function(data, center,num,data_form_search) {
+      byCenter: function(data, center,num) {
         if (this.search != "nOrTh PoLe") {
           return byCenter(data, center, num);
-        } else {
-          return data_form_search;
         }
       },
       LatLngTolongitude: function(value) {
