@@ -121,8 +121,7 @@
         },
         top_filter: {
           type: Array,
-          notify: true,
-          value:[{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
+          notify: true
         },
         filter: {
           type: String,
@@ -131,6 +130,10 @@
         search_fields:{
           type: Array, 
           value: ["value"]
+        },
+        data {
+          type:Array,
+          value: [{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
         }
       },
       hiddenResults: function(output) {
