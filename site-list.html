@@ -65,7 +65,8 @@
     <content></content>
     
     <get-geo-data
-       geo="[[hash]]"
+       geo="{{hash}}"
+       dd="{{dd}}"
        input="https://essentialhotels.co.uk/index.json"
        all_data="{{all_data}}"
        data="{{data}}" >
@@ -131,6 +132,9 @@
           value: ["value"]
         },
         data: {
+          type:Array
+        },
+        dd: {
           type:Array,
           value: [{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
         }
