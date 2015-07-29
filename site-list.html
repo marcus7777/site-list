@@ -3,6 +3,7 @@
 <link rel="import" href="../get-geo-data/get-geo-data.html">
 <link rel="import" href="../iron-image/iron-image.html">
 <link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../geohash-js/geohash-js.html">
 <link rel="import" href="../lunr-js/lunr-js.html">
 
 <dom-module id="site-list">
@@ -66,7 +67,7 @@
     <content></content>
     
     <get-geo-data
-       geo="{{hash}}"
+       geo="{{top_hash}}"
        dd="{{dd}}"
        input="index.json"
        all_data="{{all_data}}"
@@ -95,19 +96,6 @@
             <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
           </paper-material>
         </a></template>
-    </template>
-    <template is="dom-repeat" items="{{output_for_search}}" as="card" id="cards" delay="400">
-      <a href="{{card.url}}" title="{{card.value}}" >
-        <paper-material>
-          <div class="body1" style="float: left;width:250px">
-            <h3>{{card.value}}</h3>
-            <span>{{card.title}}</span>
-            <span>more infomation</span>
-          </div>
-          <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
-          <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
-        </paper-material>
-      </a>
     </template>
   </template>
 </dom-module>
@@ -152,8 +140,21 @@
         dd: {
           type:Array,
           value: [{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
+        },
+        top_hash: {
+          computed: 'get_top_hash',
+        },
+        output_for_search: {
+          type:Array,value:[]
         }
       },
+      get_top_hash: function() {
+      	if (this.output_for_search.length > 0 ) {
+      	  return encodeGeoHash(+this.output_for_search.LatLng.split(',')[0], +this.output_for_search.LatLng.split(',')[1]);
+      	} else {
+      	  return this.hash;
+      	}
+      }
       hiddenResults: function(output) {
         if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
           return false;
