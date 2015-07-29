@@ -96,7 +96,7 @@
           </paper-material>
         </a></template>
     </template>
-    <template is="dom-if" if="{{hiddenResults(output)}}">
+    <template is="dom-if" if="{{!hiddenResults(output)}}">
        <template is="dom-repeat" items="{{output_for_search}}" as="card" id="cards" delay="400">
         <a href="{{card.url}}" title="{{card.value}}" >
           <paper-material>
