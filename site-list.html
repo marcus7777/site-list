@@ -82,7 +82,7 @@
     
     <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{true_top_filter}}"></paper-filter>
     
-    <!-- <template is="dom-if" if="{{!hiddenResults(output)}}">
+    <template is="dom-if" if="{{!hiddenResults(output)}}">
       <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400"><a href="{{card.url}}" title="{{card.value}}" >
           <paper-material>
             <div class="body1" style="float: left;width:250px">
@@ -91,12 +91,12 @@
               <span>more infomation</span>
             </div>
            
-            --> <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
-            <!-- <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
+            <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
+            <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
           </paper-material>
         </a></template>
     </template>
-     <!-- <template is="dom-if" if="{{hiddenResults(output)}}"> -->
+    <template is="dom-if" if="{{hiddenResults(output)}}">
        <template is="dom-repeat" items="{{output_for_search}}" as="card" id="cards" delay="400">
         <a href="{{card.url}}" title="{{card.value}}" >
           <paper-material>
@@ -111,7 +111,7 @@
           </paper-material>
         </a>
       </template>
-    <!-- </template> -->
+    </template>
   </template>
 </dom-module>
 <script type="text/javascript">
