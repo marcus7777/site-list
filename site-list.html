@@ -149,7 +149,7 @@
         }
       },
       get_top_hash: function() {
-      	if (this.output_for_search.length > 0 ) {
+      	if (Array.isArray(this.output_for_search) && this.output_for_search.length > 0 ) {
       	  return encodeGeoHash(+this.output_for_search.LatLng.split(',')[0], +this.output_for_search.LatLng.split(',')[1]);
       	} else {
       	  return this.hash;
