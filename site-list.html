@@ -76,7 +76,8 @@
     <lunr-js data="[[all_data]]" 
       search="{{search}}"
       fields="['value','facilities']"
-      output="{{output_for_search}}" >
+      output="{{output_for_search}}"
+      limit="1">
     </lunr-js>
     
     <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{true_top_filter}}"></paper-filter>
