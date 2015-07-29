@@ -142,15 +142,15 @@
           value: [{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
         },
         top_hash: {
-          computed: 'get_top_hash()'
+          computed: 'get_top_hash(hash,output_for_search)'
         },
         output_for_search: {
           type:Array
         }
       },
-      get_top_hash: function() {
-      	if (Array.isArray(this.output_for_search) && this.output_for_search.length > 0 ) {
-      	  return encodeGeoHash(+this.output_for_search.LatLng.split(',')[0], +this.output_for_search.LatLng.split(',')[1]);
+      get_top_hash: function(hash, output_for_search) {
+      	if (Array.isArray(output_for_search) && output_for_search.length > 0 ) {
+      	  return encodeGeoHash(+output_for_search.LatLng.split(',')[0], +output_for_search.LatLng.split(',')[1]);
       	} else {
       	  return this.hash;
       	}
