@@ -82,7 +82,7 @@
       limit="1" >
     </lunr-js>
     
-    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{true_top_filter}}"></paper-filter>
+    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{true_top_filter}}" obj_filters="{{set_filters}}"></paper-filter>
     
     <template is="dom-if" if="{{!hiddenResults(output)}}">
       <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400"><a href="{{card.url}}" title="{{card.value}}" >
@@ -125,6 +125,9 @@
         },
         top_filter: {
           computed: 'get_top_filter(true_top_filter)',
+          notify: true
+        },
+        set_filters: {
           notify: true
         },
         filter: {
