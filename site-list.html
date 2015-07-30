@@ -153,22 +153,26 @@
       get_top_hash: function(hash, output_for_search) {
       	if (Array.isArray(output_for_search) && output_for_search.length > 0 ) {
           if ("map" in this) {
-            if (this.map.hasOwnProperty("zoom")) {
-              this.map.setCenter({
-                lat: +output_for_search[0].LatLng.split(',')[0], 
-                lng: +output_for_search[0].LatLng.split(',')[1]
-              });
+            if (typeof this.map === "object") {
+              if (this.map.hasOwnProperty("zoom")) {
+                this.map.setCenter({
+                  lat: +output_for_search[0].LatLng.split(',')[0], 
+                  lng: +output_for_search[0].LatLng.split(',')[1]
+                });
+              };
             };
           };
       	  return encodeGeoHash(+output_for_search[0].LatLng.split(',')[0], +output_for_search[0].LatLng.split(',')[1]);
       	} else {
           if ("map" in this) {
-            if (this.map.hasOwnProperty("zoom")) {
-      	      var point = decodeGeoHash(this.hash);
-              this.map.setCenter({
-                lat: point.latitude, 
-                lng: point.longitude
-              });
+            if (typeof this.map === "object") {
+              if (this.map.hasOwnProperty("zoom")) {
+      	        var point = decodeGeoHash(this.hash);
+                this.map.setCenter({
+                  lat: point.latitude, 
+                  lng: point.longitude
+                });
+              };
             };
           };
       	  return this.hash;
