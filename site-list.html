@@ -152,7 +152,8 @@
       },
       get_top_hash: function(hash, output_for_search) {
       	if (Array.isArray(output_for_search) && output_for_search.length > 0 ) {
-          if ("map" in this && this.map.hasOwnProperty("zoom")) {
+          if ("map" in this) {
+          this.map.hasOwnProperty("zoom")) {
             this.map.setCenter({
               lat: +output_for_search[0].LatLng.split(',')[0], 
               lng: +output_for_search[0].LatLng.split(',')[1]
