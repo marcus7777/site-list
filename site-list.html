@@ -48,7 +48,7 @@
   </style>
   
   <template>
-    <!-- <template is="dom-if" if="{{_search}}"> --> 
+    <template is="dom-if" if="{{_search}}">
       <google-map hidden$="{{!showMap(output)}}" map="{{map}}" id="map">
         <template is="dom-if" if="{{!hiddenResults(output)}}">
           <template is="dom-repeat" items="{{byCenter(data_by_tf,top_hash,100)}}" as="marker">
@@ -62,7 +62,7 @@
         </template>
       </google-map>
       <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
-    <!-- </template> -->
+    </template>
     
     <content></content>
     
@@ -152,7 +152,7 @@
       },
       get_top_hash: function(hash, output_for_search) {
       	if (Array.isArray(output_for_search) && output_for_search.length > 0 ) {
-          if (this.hasOwnProperty("map") && this.map.hasOwnProperty("zoom")) {
+          if ("map" in this && this.map.hasOwnProperty("zoom")) {
             this.map.setCenter({
               lat: +output_for_search[0].LatLng.split(',')[0], 
               lng: +output_for_search[0].LatLng.split(',')[1]
@@ -160,7 +160,7 @@
           };
       	  return encodeGeoHash(+output_for_search[0].LatLng.split(',')[0], +output_for_search[0].LatLng.split(',')[1]);
       	} else {
-      	  if (this.hasOwnProperty("map") && this.map.hasOwnProperty("zoom")) {
+      	  if ("map" in this && this.map.hasOwnProperty("zoom")) {
       	    var point = decodeGeoHash(this.hash);
             this.map.setCenter({
               lat: point.latitude, 
@@ -178,7 +178,7 @@
         }
       },
       showMap: function() {
-      	if (this.hash === "gzzzzzzzzzzz" || this._search === "") {
+      	if (this.top_hash === "gzzzzzzzzzzz" || this._search === "") {
       	  return false
       	} else {
           if (Array.isArray(this.output) && this.output.length > 0 && this.output[0].hasOwnProperty("image")) {
@@ -196,7 +196,7 @@
           this._search = this.search;
         }
       },
-      byCenter: function(data, center,num) {
+      byCenter: function(data, center, num) {
         if (this.search != "nOrTh PoLe") {
           return byCenter(data, center, num);
         }
