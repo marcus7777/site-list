@@ -169,8 +169,8 @@
               if (this.map.hasOwnProperty("zoom")) {
       	        var point = decodeGeoHash(this.hash);
                 this.map.setCenter({
-                  lat: point.latitude, 
-                  lng: point.longitude
+                  lat: point.latitude[0], 
+                  lng: point.longitude[0]
                 });
               };
             };
