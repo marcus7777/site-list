@@ -53,7 +53,7 @@
         <template is="dom-if" if="{{!hiddenResults(output)}}">
           <template is="dom-repeat" items="{{byCenter(data_by_tf,top_hash,100)}}" as="marker">
             <google-map-marker icon="[[marker.type]].svg" longitude="[[LatLngTolongitude(marker.LatLng)]]" latitude="[[LatLngTolatitude(marker.LatLng)]]" title="[[marker.value]]" >
-              <a href="[[marker.url]]">
+              <a href="[[marker.url]]" rel="external">
                 <h4>[[marker.value]]</h4>
                 <img src="[[addCDN('https://sdyrcs.cloudimage.io/s/crop/120x120/', marker.image) ]]">
               </a>
@@ -85,7 +85,7 @@
     <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{true_top_filter}}" obj_filters="{{set_filters}}"></paper-filter>
     
     <template is="dom-if" if="{{!hiddenResults(output)}}">
-      <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400"><a href="{{card.url}}" title="{{card.value}}" >
+      <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400"><a rel="external"  href="{{card.url}}" title="{{card.value}}" >
           <paper-material>
             <div class="body1" style="float: left;width:250px">
               <h3>{{card.value}}</h3>
