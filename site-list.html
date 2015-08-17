@@ -1,78 +1,254 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../get-hash/get-hash.html">
 <link rel="import" href="../paper-filter/paper-filter.html">
+<link rel="import" href="../get-geo-data/get-geo-data.html">
 <link rel="import" href="../iron-image/iron-image.html">
-<link rel="import" href="../firebase-element/firebase-collection.html">
-<link rel="import" href="../paper-ripple/paper-ripple.html">
-<!-- <link rel="import" href="../iron-list/iron-list.html"> -->
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../geohash-js/geohash-js.html">
+<link rel="import" href="../lunr-js/lunr-js.html">
 
 <dom-module id="site-list">
-	<style>
-		: host {
-			display: block;
-			text-align: center;
-			background-color: #eeeee0;
-			font-family: Roboto, Helvetica, Arial, sans-serif;
-			font-weight: 300;
-			padding-top: 10px;
-		}
-		paper-button {
-			background: #fff;
-			min-width: 172px;
-			margin: 0px 2px 6px;
-			font-family: Roboto, Helvetica, sans-serif;
-		}
-		paper-material {
-			background: #fff;
-			margin: 16px, 16px;
-			height: 100px;
-			margin: 5px;
-			display: inline-block;
-		}
-		a: link {
-			color: black;
-		}
-		h3 {
-			font-weight: 300;
-		}
-		paper-filter {
-			margin-top: 10px;
-		}
-		paper-ripple {
-			z-index: 1000;
-		}
-	</style>
-
-	<template>
-		<firebase-collection location="https://hi9site.firebaseio.com/cards/data/card" data="{{cards}}">
-		</firebase-collection>
-		<paper-filter by="type" data="[[cards]]" output="{{output}}"></paper-filter>
-		<!--  <iron-list style="height:600px" items="[[output]]" id="cards">  -->
-		<template is="dom-repeat" items="[[output]]" id="cards">
-			<a href="[[item.url]]" title="[[item.value]]">
-				<paper-material>
-					<div>
-						<paper-ripple></paper-ripple>
-
-						<div class="body1" style="float: left;width:150px">
-
-							<h3>[[item.value]]</h3>
-							<span>[[item.title]]</span>
-						</div>
-						<iron-image sizing="contain" src="[[item.image]]" style="float: right;width:100px; height:100px;"></iron-image>
-					</div>
-				</paper-material>
-			</a>
-		</template>
-		<!-- </iron-list> -->
-	</template>
-	<script type="text/javascript">
-		Polymer({
-			is: 'site-list',
-			ready: function() {
-				window.setInterval(function() {
-					document.querySelectorAll('html site-list')[0].$.cards.render();
-				}, 3000)
-			}
-		});
-	</script>
+  <style>
+    :host {
+      display: block;
+      text-align: center;
+      background-color: #faebd7;
+      font-family: Roboto, Helvetica, sans-serif;
+      font-weight: 300;
+    }
+    paper-button {
+      background: #fff;
+      min-width: 172px;
+      margin: 0px 2px 6px;
+      font-family: Roboto, Helvetica, sans-serif;
+      font-weight: 300;
+    }
+    paper-material {
+      margin: 16px,5px,0,16px;
+      height: 100px;
+      min-width:360px;
+      margin:10px;
+      display: inline-block;
+      background: #fff;
+      font-family: Roboto, Helvetica, sans-serif;
+      font-weight: 300;
+    }
+    a:link {
+      color:black;
+    }
+    google-map {
+      height: 300px;
+    }
+    paper-filter {
+      margin-top: 5px;
+    }
+    iron-input {
+      position: relative;
+    }
+	  
+  </style>
+  
+  <template>
+    <template is="dom-if" if="{{_search}}">
+      <google-map hidden$="{{!showMap(output)}}" map="{{map}}" id="map">
+        <template is="dom-if" if="{{!hiddenResults(output)}}">
+          <template is="dom-repeat" items="{{byCenter(data_by_tf,top_hash,100)}}" as="marker">
+            <google-map-marker icon="[[marker.type]].svg" longitude="[[LatLngTolongitude(marker.LatLng)]]" latitude="[[LatLngTolatitude(marker.LatLng)]]" title="[[marker.value]]" >
+              <a href="[[marker.url]]" rel="external">
+                <h4>[[marker.value]]</h4>
+                <img src="[[addCDN('https://sdyrcs.cloudimage.io/s/crop/120x120/', marker.image) ]]">
+              </a>
+            </google-map-marker>
+          </template>
+        </template>
+      </google-map>
+      <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
+    </template>
+    
+    <content></content>
+    
+    <get-geo-data
+       geo="{{top_hash}}"
+       dd="{{dd}}"
+       input="index.json"
+       all_data="{{all_data}}"
+       data="{{data}}" >
+    </get-geo-data>
+    
+    <lunr-js data="[[all_data]]" 
+      search="{{_search}}"
+      fields="{{search_fields}}"
+      output="{{output_for_search}}"
+      minScore=".5"
+      limit="1" >
+    </lunr-js>
+    
+    <paper-filter by="type,facilities" data="{{data}}" output="{{data_by_tf}}" top_filter="{{true_top_filter}}" obj_filters="{{set_filters}}"></paper-filter>
+    
+    <template is="dom-if" if="{{!hiddenResults(output)}}">
+      <template is="dom-repeat" items="{{output}}" as="card" id="cards" delay="400"><a rel="external"  href="{{card.url}}" title="{{card.value}}" >
+          <paper-material>
+            <div class="body1" style="float: left;width:250px">
+              <h3>{{card.value}}</h3>
+              <span>{{card.title}}</span>
+              <span>more infomation</span>
+            </div>
+           
+            <!-- <iron-image sizing="cover" src="https://sdyrcs.cloudimage.io/s/crop/120x120/{{card.image}}" style="width:100px; height:100px;"></iron-image> -->
+            <iron-image sizing="cover" src="{{card.image}}" style="float: right;width:100px; height:100px;"></iron-image>
+          </paper-material>
+        </a></template>
+    </template>
+  </template>
 </dom-module>
+<script type="text/javascript">
+    Polymer({
+      is: 'site-list',
+      properties: {
+        output: {
+          type: Array,
+          computed: 'byCenter(data_by_tf,top_hash,30)'
+        },
+        search: {
+          type: String,
+          value:"nOrTh PoLe"
+        },
+        _search: {
+          type: String,
+          value:""
+        }, 
+        debounceing: {
+          computed: 'debounceInput(search)'
+        },
+        hash: {
+          type:String,
+          value:"gzzzzzzzzzzz"
+        },
+        top_filter: {
+          computed: 'get_top_filter(true_top_filter)',
+          notify: true
+        },
+        set_filters: {
+          notify: true
+        },
+        filter: {
+          type: String,
+          notify: true
+        },
+        search_fields:{
+          type: Array, 
+          value: ["value"]
+        },
+        map: Object,
+        data:{
+          type:Array
+        },
+        dd: {
+          type:Array,
+          value: [{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
+        },
+        top_hash: {
+          computed: 'get_top_hash(hash,output_for_search)'
+        },
+        output_for_search: {
+          type:Array
+        }
+      },
+      get_top_hash: function(hash, output_for_search) {
+      	if (Array.isArray(output_for_search) && output_for_search.length > 0 ) {
+          if ("map" in this) {
+            if (typeof this.map === "object" && this.map !== null) {
+              if (this.map.hasOwnProperty("zoom")) {
+                this.map.setCenter({
+                  lat: +output_for_search[0].LatLng.split(',')[0], 
+                  lng: +output_for_search[0].LatLng.split(',')[1]
+                });
+              };
+            };
+          };
+          console.log("centering by ",output_for_search[0]);
+      	  return encodeGeoHash(+output_for_search[0].LatLng.split(',')[0], +output_for_search[0].LatLng.split(',')[1]);
+      	} else {
+          if ("map" in this) {
+            if (typeof this.map === "object") {
+              if (this.map.hasOwnProperty("zoom")) {
+      	        var point = decodeGeoHash(this.hash);
+                this.map.setCenter({
+                  lat: point.latitude[0], 
+                  lng: point.longitude[0]
+                });
+              };
+            };
+          };
+      	  return this.hash;
+      	}
+      },
+      hiddenResults: function(output) {
+        if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      showMap: function() {
+      	if (this.top_hash === "gzzzzzzzzzzz" || this._search === "") {
+      	  return false
+      	} else {
+          if (Array.isArray(this.output) && this.output.length > 0 && this.output[0].hasOwnProperty("image")) {
+            return true;
+          } else {
+            return false;
+          }
+      	}
+      },
+      debounceInput: function(data){
+        this.debounce("setInput", this.setInput, 1200)
+      },
+      setInput: function(){
+        if (this.search != "nOrTh PoLe") {
+          this._search = this.search;
+        }
+      },
+      byCenter: function(data, center, num) {
+        if (this.search != "nOrTh PoLe") {
+          return byCenter(data, center, num);
+        }
+      },
+      LatLngTolongitude: function(value) {
+        if (value !== undefined) {
+          return +value.split(',')[1];
+        }
+      },
+      LatLngTolatitude: function(value) { console.log('LatLngTolatitude');
+        if (value !== undefined) {
+          return +value.split(',')[0];
+        }
+      },
+      addCDN: function(cdn, url) {
+        return cdn + url;
+      },
+      get_top_filter: function (true_top_filter){
+      	if (Array.isArray(true_top_filter) && true_top_filter.length > 1 ) {
+          return true_top_filter;
+      	} else {
+      	  return [{name:"Hotels"},{name:"Things to Do"},{name:"Destinations"},{name:"Food & Drink"}];
+      	}
+      },
+      ready: function() {
+        setInterval(function() {       
+          // var app = document.querySelectorAll('html site-list #cards');
+          // if (app.length > 0) {
+          //    app[0].render();
+          // }
+//          app.output = byCenter(app.data_by_tf, app.hash, 20);
+          var map = document.querySelectorAll('google-map');
+          if (map.length > 0) {
+            map[0].resize();
+          }
+          if (map.length > 1) {
+            map[1].resize();
+          } // TODO smelly
+          this.is_ready = true;
+        },3000)
+      }
+    });
+</script>
