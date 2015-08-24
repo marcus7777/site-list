@@ -147,22 +147,20 @@
           value: [{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
         },
         top_hash: {
-          computed: 'get_top_hash(hash,output_for_search)'
+          computed: 'get_top_hash(hash, output_for_search, map.zoom)'
         },
         output_for_search: {
           type:Array
         }
       },
-      get_top_hash: function(hash, output_for_search) {
+      get_top_hash: function(hash, output_for_search, zoom) {
       	if (Array.isArray(output_for_search) && output_for_search.length > 0 ) {
           if ("map" in this) {
             if (typeof this.map === "object" && this.map !== null) {
-              if (this.map.hasOwnProperty("zoom")) {
-                this.map.setCenter({
-                  lat: +output_for_search[0].LatLng.split(',')[0], 
-                  lng: +output_for_search[0].LatLng.split(',')[1]
-                });
-              };
+              this.map.setCenter({
+                lat: +output_for_search[0].LatLng.split(',')[0], 
+                lng: +output_for_search[0].LatLng.split(',')[1]
+              });
             };
           };
           console.log("centering by ",output_for_search[0]);
