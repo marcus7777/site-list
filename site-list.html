@@ -147,11 +147,17 @@
           value: [{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
         },
         top_hash: {
-          computed: 'get_top_hash(output_for_search.0.LatLng)'
+          computed: 'get_top_hash(top_of_search)'
         },
         output_for_search: {
           type:Array
+        },
+        top_of_search:{
+          computed:"get(output_for_search.0.LatLng)"
         }
+      },
+      getVal: function(val) {
+        return val;
       },
       get_top_hash: function(top_of_search) {
       	  return encodeGeoHash(+top_of_search.split(',')[0], +top_of_search.split(',')[1]);
