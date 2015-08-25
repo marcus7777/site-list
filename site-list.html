@@ -102,12 +102,11 @@
     Polymer({
       is: 'site-list',
       properties: {
+      	data_by_tf:Array,
       	map_output: {
-          type: Array,
-          computed: 'byCenter(data_by_tf,top_hash,30)'
+          computed: 'byCenter(data_by_tf,top_hash,100)'
         },
         output: {
-          type: Array,
           computed: 'byCenter(data_by_tf,top_hash,30)'
         },
         search: {
