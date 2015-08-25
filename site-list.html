@@ -168,17 +168,6 @@
           return true;
         }
       },
-      showMap: function(top_hash,_search,output) {
-      	if (top_hash === "gzzzzzzzzzzz" || _search === "") {
-      	  return false
-      	} else {
-          if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
-            return true;
-          } else {
-            return false;
-          }
-      	}
-      },
       debounceInput: function(data){
         this.debounce("setInput", this.setInput, 1200)
       },
