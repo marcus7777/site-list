@@ -36,6 +36,7 @@
     "geohash-js":"marcus7777/geohash-js",
     "paper-filter": "HackITtoday/paper-filter",
     "geohash-js":"marcus7777/geohash-js",
-    "firebase-element":"GoogleWebComponents/firebase-element#^1.0.0"
+    "firebase-element":"GoogleWebComponents/firebase-element#^1.0.0",
+    "lunr-js":"marcus7777/lunr-js"
   }
 }
