@@ -7,7 +7,8 @@
 <link rel="import" href="../lunr-js/lunr-js.html">
 
 <dom-module id="site-list">
-  <style>
+  <template>
+    <style>
     :host {
       display: block;
       text-align: center;
@@ -46,9 +47,7 @@
     }
 	  
   </style>
-  
-  <template>
-    <!-- <template is="dom-if" if="{{_search}}"> -->
+    <template is="dom-if" if="{{_search}}"> map:
       <google-map map="{{map}}" id="map">
         <template is="dom-repeat" items="[[map_output]]" as="marker">
           <google-map-marker icon="[[marker.type]].svg" longitude="[[LatLngTolongitude(marker.LatLng)]]" latitude="[[LatLngTolatitude(marker.LatLng)]]" title="[[marker.value]]" >
@@ -60,7 +59,7 @@
         </template>
       </google-map>
       <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
-    <!-- </template> -->
+    </template>
     
     <content></content>
     
