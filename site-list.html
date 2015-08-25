@@ -157,7 +157,7 @@
           if (this.log) console.log("centering by ",output_for_search[0]);
       	  return encodeGeoHash(+output_for_search[0].LatLng.split(',')[0], +output_for_search[0].LatLng.split(',')[1]);
       },
-      set_map: function(output_for_search, map)
+      set_map: function(output_for_search, map) {
         map.setCenter({
           lat: +output_for_search[0].LatLng.split(',')[0], 
           lng: +output_for_search[0].LatLng.split(',')[1]
