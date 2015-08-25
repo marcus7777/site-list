@@ -153,13 +153,15 @@
           type:Array
         }
       },
-      get_top_hash: function(hash, output_for_search, zoom) {
-          this.map.setCenter({
-            lat: +output_for_search[0].LatLng.split(',')[0], 
-            lng: +output_for_search[0].LatLng.split(',')[1]
-          });
-          console.log("centering by ",output_for_search[0]);
+      get_top_hash: function(hash, output_for_search) {
+          if (this.log) console.log("centering by ",output_for_search[0]);
       	  return encodeGeoHash(+output_for_search[0].LatLng.split(',')[0], +output_for_search[0].LatLng.split(',')[1]);
+      },
+      set_map: function(output_for_search, map)
+        map.setCenter({
+          lat: +output_for_search[0].LatLng.split(',')[0], 
+          lng: +output_for_search[0].LatLng.split(',')[1]
+        });
       },
       hiddenResults: function(output) {
         if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
