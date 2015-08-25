@@ -32,11 +32,7 @@
     "paper-dialog-behavior": "PolymerElements/paper-dialog-behavior#^1.0.0",
     "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^1.0.0",
     "paper-filter": "HackITtoday/paper-filter",
-    "url-value": "HackITtoday/url-value",
     "geohash-js":"marcus7777/geohash-js",
-    "paper-filter": "HackITtoday/paper-filter",
-    "geohash-js":"marcus7777/geohash-js",
-    "firebase-element":"GoogleWebComponents/firebase-element#^1.0.0",
     "lunr-js":"marcus7777/lunr-js"
   }
 }
