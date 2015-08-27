@@ -246,13 +246,13 @@
           var that = document.querySelectorAll('html site-list'), app;
           if (that.length > 0) {
             app = that[0];
-            if (is_ready !== true && (typeof app.hash === "string") && (app.top_hash !== "gzzzzzzzzzzz")) {
+            if (app.is_ready !== true && (typeof app.hash === "string") && (app.top_hash !== "gzzzzzzzzzzz")) {
               var point = decodeGeoHash(app.hash);
               app.map.setCenter({
                 lat: point.latitude[0], 
                 lng: point.longitude[0]
               });
-              this.is_ready = true;
+              app.is_ready = true;
             }
           }
         },3000)
