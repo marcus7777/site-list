@@ -235,22 +235,25 @@
       },
       ready: function() {
         setInterval(function() {       
-          var app = document.querySelectorAll('html site-list');
-          if (app.length > 0) {
-             app[0].$.cards.render();
+          var cards = document.querySelectorAll('html site-list #cards');
+          if (cards.length > 0) {
+             cards[0].render();
           }
-//          app.output = byCenter(app.data_by_tf, app.hash, 20);
           var map = document.querySelectorAll('google-map');
           if (map.length > 0) {
             map[0].resize();
           }
-          if (is_ready !== true && (typeof app.hash === "string") && (this.top_hash !== "gzzzzzzzzzzz")) {
-            var point = decodeGeoHash(app.hash);
-            app.map.setCenter({
-              lat: point.latitude[0], 
-              lng: point.longitude[0]
-            });
-            this.is_ready = true;
+          var that = document.querySelectorAll('html site-list'), app;
+          if (that.length > 0) {
+            app = that[0];
+            if (is_ready !== true && (typeof app.hash === "string") && (app.top_hash !== "gzzzzzzzzzzz")) {
+              var point = decodeGeoHash(app.hash);
+              app.map.setCenter({
+                lat: point.latitude[0], 
+                lng: point.longitude[0]
+              });
+              this.is_ready = true;
+            }
           }
         },3000)
       }
