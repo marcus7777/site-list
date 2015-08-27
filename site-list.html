@@ -7,8 +7,7 @@
 <link rel="import" href="../lunr-js/lunr-js.html">
 
 <dom-module id="site-list">
-  <template>
-    <style>
+  <style>
     :host {
       display: block;
       text-align: center;
@@ -47,15 +46,19 @@
     }
 	  
   </style>
-    <template is="dom-if" if="{{_search}}"> map:
-      <google-map map="{{map}}" id="map">
-        <template is="dom-repeat" items="[[map_output]]" as="marker">
-          <google-map-marker icon="[[marker.type]].svg" longitude="[[LatLngTolongitude(marker.LatLng)]]" latitude="[[LatLngTolatitude(marker.LatLng)]]" title="[[marker.value]]" >
-            <a href="[[marker.url]]" rel="external">
-              <h4>[[marker.value]]</h4>
-              <img src="[[addCDN('https://sdyrcs.cloudimage.io/s/crop/120x120/', marker.image) ]]">
-            </a>
-          </google-map-marker>
+  
+  <template>
+    <template is="dom-if" if="{{_search}}">
+      <google-map hidden$="{{!showMap(output)}}" map="{{map}}" id="map">
+        <template is="dom-if" if="{{!hiddenResults(output)}}">
+          <template is="dom-repeat" items="{{byCenter(data_by_tf,top_hash,100)}}" as="marker">
+            <google-map-marker icon="[[marker.type]].svg" longitude="[[LatLngTolongitude(marker.LatLng)]]" latitude="[[LatLngTolatitude(marker.LatLng)]]" title="[[marker.value]]" >
+              <a href="[[marker.url]]" rel="external">
+                <h4>[[marker.value]]</h4>
+                <img src="[[addCDN('https://sdyrcs.cloudimage.io/s/crop/120x120/', marker.image) ]]">
+              </a>
+            </google-map-marker>
+          </template>
         </template>
       </google-map>
       <get-hash location="{{_search}}" map="{{map}}" hash="{{hash}}"></get-hash>
@@ -101,11 +104,8 @@
     Polymer({
       is: 'site-list',
       properties: {
-      	data_by_tf:Array,
-      	map_output: {
-          computed: 'byCenter(data_by_tf,top_hash,100)'
-        },
         output: {
+          type: Array,
           computed: 'byCenter(data_by_tf,top_hash,30)'
         },
         search: {
@@ -147,26 +147,40 @@
           value: [{type:"Hotels"},{type:"Things to Do"},{type:"Destinations"},{type:"Food & Drink"}]
         },
         top_hash: {
-          computed: 'get_top_hash(top_of_search)'
+          computed: 'get_top_hash(hash,output_for_search)'
         },
         output_for_search: {
           type:Array
-        },
-        top_of_search:{
-          computed:"get(output_for_search.0.LatLng)"
         }
       },
-      getVal: function(val) {
-        return val;
-      },
-      get_top_hash: function(top_of_search) {
-      	  return encodeGeoHash(+top_of_search.split(',')[0], +top_of_search.split(',')[1]);
-      },
-      set_map: function(output_for_search, map) {
-        map.setCenter({
-          lat: +output_for_search[0].LatLng.split(',')[0], 
-          lng: +output_for_search[0].LatLng.split(',')[1]
-        });
+      get_top_hash: function(hash, output_for_search) {
+      	if (Array.isArray(output_for_search) && output_for_search.length > 0 ) {
+          if ("map" in this) {
+            if (typeof this.map === "object" && this.map !== null) {
+              if (this.map.hasOwnProperty("zoom")) {
+                this.map.setCenter({
+                  lat: +output_for_search[0].LatLng.split(',')[0], 
+                  lng: +output_for_search[0].LatLng.split(',')[1]
+                });
+              };
+            };
+          };
+          console.log("centering by ",output_for_search[0]);
+      	  return encodeGeoHash(+output_for_search[0].LatLng.split(',')[0], +output_for_search[0].LatLng.split(',')[1]);
+      	} else {
+          if ("map" in this) {
+            if (typeof this.map === "object") {
+              if (this.map.hasOwnProperty("zoom")) {
+      	        var point = decodeGeoHash(hash);
+                this.map.setCenter({
+                  lat: point.latitude[0], 
+                  lng: point.longitude[0]
+                });
+              };
+            };
+          };
+      	  return this.hash;
+      	}
       },
       hiddenResults: function(output) {
         if (Array.isArray(output) && output.length > 0 && output[0].hasOwnProperty("image")) {
@@ -175,11 +189,22 @@
           return true;
         }
       },
+      showMap: function() {
+      	if (this.top_hash === "gzzzzzzzzzzz" || this._search === "") {
+      	  return false
+      	} else {
+          if (Array.isArray(this.output) && this.output.length > 0 && this.output[0].hasOwnProperty("image")) {
+            return true;
+          } else {
+            return false;
+          }
+      	}
+      },
       debounceInput: function(data){
         this.debounce("setInput", this.setInput, 1200)
       },
       setInput: function(){
-        if (this.search !== "nOrTh PoLe" && this.search !== "" && this._search !== this.search) {
+        if (this.search != "nOrTh PoLe") {
           this._search = this.search;
         }
       },
@@ -210,19 +235,23 @@
       },
       ready: function() {
         setInterval(function() {       
-          // var app = document.querySelectorAll('html site-list #cards');
-          // if (app.length > 0) {
-          //    app[0].render();
-          // }
+          var app = document.querySelectorAll('html site-list');
+          if (app.length > 0) {
+             app[0].$.cards.render();
+          }
 //          app.output = byCenter(app.data_by_tf, app.hash, 20);
           var map = document.querySelectorAll('google-map');
           if (map.length > 0) {
-      //      map[0].resize();
+            map[0].resize();
           }
-          if (map.length > 1) {
-      //      map[1].resize();
-          } // TODO smelly
-          this.is_ready = true;
+          if (is_ready !== true && (typeof app.hash === "string") && (this.top_hash !== "gzzzzzzzzzzz")) {
+            var point = decodeGeoHash(app.hash);
+            app.map.setCenter({
+              lat: point.latitude[0], 
+              lng: point.longitude[0]
+            });
+            this.is_ready = true;
+          }
         },3000)
       }
     });
