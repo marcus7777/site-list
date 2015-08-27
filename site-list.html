@@ -246,9 +246,9 @@
           var that = document.querySelectorAll('html site-list'), app;
           if (that.length > 0) {
             app = that[0];
-            if (app.is_ready !== true && (typeof app.hash === "string") && (app.top_hash !== "gzzzzzzzzzzz")) {
-              var point = decodeGeoHash(app.hash);
-              app.map.setCenter({
+            if (app.is_ready !== true && (typeof app.top_hash === "string") && (app.top_hash !== "gzzzzzzzzzzz")) {
+              var point = decodeGeoHash(app.top_hash);
+              map[0].setCenter({
                 lat: point.latitude[0], 
                 lng: point.longitude[0]
               });
